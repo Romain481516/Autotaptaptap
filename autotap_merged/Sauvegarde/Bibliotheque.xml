@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<BIBLIO>
+    <Chanson>
+        <nom>NomPartionTest</nom>
+        <cheminPartition>Sauvegarde\TestChemin.xml</cheminPartition>
+    </Chanson>
+</BIBLIO>

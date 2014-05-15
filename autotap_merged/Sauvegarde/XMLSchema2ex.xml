@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<MUSIQUE>
+    <CHEMIN>cheminmusique</CHEMIN>
+    <NOM>nomcheminmusique</NOM>
+    <LISTE_SCORE>
+        <Score>
+            <joueur>Paul</joueur>
+            <niveau>Difficile</niveau>
+            <nbscore>13532</nbscore>
+        </Score>
+        <Score>
+            <joueur>Luc</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>1000</nbscore>
+        </Score>
+        <Score>
+            <joueur>Guillaume</joueur>
+            <niveau>Difficile</niveau>
+            <nbscore>156060</nbscore>
+        </Score>
+        <Score>
+            <joueur>Jean</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>0</nbscore>
+        </Score>
+        <Score>
+            <joueur>Jean</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>0</nbscore>
+        </Score>
+        <Score>
+            <joueur>Jean</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>0</nbscore>
+        </Score>
+        <Score>
+            <joueur>Marc</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>0</nbscore>
+        </Score>
+        <Score>
+            <joueur>Mickey</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>0</nbscore>
+        </Score>
+        <Score>
+            <joueur>Mickey</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>0</nbscore>
+        </Score>
+        <Score>
+            <joueur>Mickey</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>0</nbscore>
+        </Score>
+        <Score>
+            <joueur>Mickey</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>0</nbscore>
+        </Score>
+    </LISTE_SCORE>
+    <PARTITION niveau="Facile">
+        <Note>
+            <touche>true false false</touche>
+            <debut>15</debut>
+            <duree>10</duree>
+        </Note>
+        <Note>
+            <touche>false true true</touche>
+            <debut>25</debut>
+            <duree>20</duree>
+        </Note>
+        <Note>
+            <touche>true true true</touche>
+            <debut>55</debut>
+            <duree>60</duree>
+        </Note>
+        <Note>
+            <touche>true false true</touche>
+            <debut>58</debut>
+            <duree>75</duree>
+        </Note>
+    </PARTITION>
+    <PARTITION niveau="Moyen">
+        <Note>
+            <touche>false true false</touche>
+            <debut>15</debut>
+            <duree>10</duree>
+        </Note>
+    </PARTITION>
+    <PARTITION niveau="Difficile">
+        <Note>
+            <touche>false true false</touche>
+            <debut>15</debut>
+            <duree>10</duree>
+        </Note>
+    </PARTITION>
+</MUSIQUE><!--Pour les notes : Gauche,Centre,Droite,Duree,Temps(ms) -->
