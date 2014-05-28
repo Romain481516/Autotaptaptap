@@ -2,12 +2,26 @@ import ihm.PanVide;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
+import javazoom.jl.player.jlp;
 
 public class Controleur {
 
 	public static FenetreJeuencours fenetreJeuencours;
+	public static mp3Player musicPlayer;
+	public static long startTime;
 	public static Color couleur1 = new Color (180,230,180); 
 	public static Color couleur2 = new Color (240,250,250); 
 	public static FenetrePrincipale fen;
@@ -45,17 +59,42 @@ public class Controleur {
 
 		fen.setContentPane(fen.panVide);      
 		fen.setVisible(true);
+
 	}
 
 	public static void debutPartie() {
 	}
 
-	public static void lancerPartie(int indexListpart,String niveau) { //l'index donne la place de la partition dans la Jlist et dans la biblio
+	public static void lancerPartie(int indexListpart,String niveau) throws FileNotFoundException, JavaLayerException { //l'index donne la place de la partition dans la Jlist et dans la biblio
 		System.out.println("debutjeu avec "+ biblio.ListePartition.get(indexListpart).getNom() + "niveau"+ niveau);
-		FenetreJeuencours wingame = new FenetreJeuencours(couleur1,couleur2,biblio.ListePartition.get(indexListpart).accessNote(niveau),System.currentTimeMillis());
+		startMusique(biblio.ListePartition.get(indexListpart).cheminFichierAudio);
+		FenetreJeuencours wingame = new FenetreJeuencours(couleur1,couleur2,biblio.ListePartition.get(indexListpart).accessNote(niveau),startTime);
 		fenetreJeuencours = wingame;
 		wingame.start();
+		
 	}
+	//public static void setTimestart(int )
+
+	public static void startMusique(String cheminFichierAudio) throws FileNotFoundException{
+		try {
+			musicPlayer = new mp3Player();
+			try {
+				musicPlayer.initPlayer(cheminFichierAudio,1);
+				musicPlayer.start();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (JavaLayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void pause() throws InterruptedException, IOException, JavaLayerException{
+		musicPlayer.pause();
+	}
+		
 
 	public static List<Partition> getListMus(){
 		return biblio.getListePartition();
@@ -65,8 +104,8 @@ public class Controleur {
 		return biblio.allScore();
 	}
 
-	public static void supprimerPartition() {
-		System.out.println("message erreur si echec suppression");
+	public static void supprimerPartition(int listIndex) {
+		biblio.deletePartition(biblio.getListePartition().get(listIndex));
 		fen.panSuppParti.miseaJourListeMusique(getListMus());
 	}
 
@@ -89,4 +128,5 @@ public class Controleur {
 		else if (closestTime<200){message = "not bad"; fenetreJeuencours.currentScore += 100;}
 		return message;
 	}
+
 }

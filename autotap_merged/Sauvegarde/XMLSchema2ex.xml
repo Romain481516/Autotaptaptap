@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <MUSIQUE>
-    <CHEMIN>cheminmusique</CHEMIN>
+    <CHEMIN>musique2</CHEMIN>
     <NOM>nomcheminmusique</NOM>
     <LISTE_SCORE>
         <Score>

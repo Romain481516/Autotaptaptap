@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-
 import java.util.*;
 
 
@@ -63,15 +62,14 @@ public class PanSuppParti extends JPanel implements ActionListener{
 			fen.setVisible(true);
 			}
 		else if (source == this.butsupp) {
-			Controleur.supprimerPartition();
+			Controleur.supprimerPartition(listDeroul.getSelectedIndex());
 		}
 	}
 
 	public void miseaJourListeMusique(List<Partition> list){
 		listMus.clear();
 		for (int i=0; i <list.size(); ++i) {
-			listMus.addElement(list.get(i));
+			listMus.addElement(list.get(i).getNom());
 		}
-
 	}
 }

@@ -6,12 +6,16 @@ import java.awt.event.*;
 import java.awt.image.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.jlp;
 
 public class FenetreJeuencours extends JFrame implements ActionListener,KeyListener,Runnable {
 	public List<TripletNote> ListNote;
@@ -29,6 +33,7 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 	public TextField valBestScore = new TextField("0000");
 
 	public ArrayList<Note> listkeyPressed; //touches pressées pendant le repaint et le sleep
+	public mp3Player mpplay;
 
 	public FenetreJeuencours(Color couleur1,Color couleur2,List<TripletNote> listNote,long timeStart){
 		super("Jeu en cours");            
@@ -75,15 +80,12 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 		valBestScore.setEditable(false); 
 		panDroite.add(valBestScore);
 
-
 		//Ajout  du cadre de jeu 
 		cadreJeu = new CadreJeu(this.couleur1,listNote,timeStart);
 		paneau.add(cadreJeu,BorderLayout.CENTER);
 
-
 		this.setContentPane(paneau);
 		this.setVisible(true);
-
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); //opération par défaut a la fermeture
 
 		//sortie app
@@ -105,8 +107,8 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 		Thread t = new Thread(this);
 		t.start();
 	}
+	
 	public void run() {
-
 		long sleep = 30;
 		while (true) {
 			repaint();
@@ -123,7 +125,7 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 	public void actionPerformed(ActionEvent even) {
 		Object source = even.getSource();
 		if (source == this.butpause) {
-			System.out.println("pause");        
+			System.out.println("pause1");        
 		}
 		else if (source == this.butquit) {
 		}
@@ -142,8 +144,25 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 			break;
 		case KeyEvent.VK_L :
 			System.out.println(Controleur.calculScore(new Note(3,System.currentTimeMillis())));
-			break;
+			String input = JOptionPane.showInputDialog(null,"Nom du joueur:");
+			System.out.println(input);
 		case KeyEvent.VK_P :
+			try {
+				Controleur.pause();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (JavaLayerException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			System.out.println("pause");
 			break;
 		}

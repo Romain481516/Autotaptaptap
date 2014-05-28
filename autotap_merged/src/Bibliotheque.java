@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -125,7 +128,6 @@ public class Bibliotheque {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
-
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
 		} catch (TransformerException tfe) {
@@ -141,8 +143,6 @@ public class Bibliotheque {
 		String nom = part.getNom();
 		String chemin = part.getCheminPartition();
 		try {
-
-
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder;
 			docBuilder = docFactory.newDocumentBuilder();
@@ -180,7 +180,6 @@ public class Bibliotheque {
 				node.getParentNode().removeChild(node);
 			}
 
-
 			//Définition de la source et de la destination
 			DOMSource domSource = new DOMSource(doc);
 			StreamResult result = new StreamResult(xml);
@@ -197,10 +196,11 @@ public class Bibliotheque {
 
 			//Suppression de la liste de partition
 			this.ListePartition.remove(part);
+			JOptionPane.showMessageDialog(new JFrame(), "Suppression réussie");
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Echec de la suppression");
 			e.printStackTrace();
 		}
-
 	}
 	public List<Score> allScore(){
 		List<Score> ListeScore= new ArrayList<Score>();

@@ -2,10 +2,14 @@
 import java.awt.event.*;
 import java.awt.*;
 import java.awt.List;
+import java.io.FileNotFoundException;
+
 import javax.swing.*;
 import java.util.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
+import javazoom.jl.decoder.JavaLayerException;
 
 public class PanChoixMus extends JPanel implements ActionListener{
 	public FenetrePrincipale fen;
@@ -86,11 +90,35 @@ public class PanChoixMus extends JPanel implements ActionListener{
 		else if (source == this.butval) {
 			System.out.println("debutjeu avec ");
 			if( choixniveaufacile.isSelected() == true) {
-				Controleur.lancerPartie(listDeroul.getSelectedIndex(),"Facile" );
+				try {
+					Controleur.lancerPartie(listDeroul.getSelectedIndex(),"Facile" );
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JavaLayerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else if( choixniveaunormal.isSelected() == true) {
-				Controleur.lancerPartie(listDeroul.getSelectedIndex(),"Moyen");
+				try {
+					Controleur.lancerPartie(listDeroul.getSelectedIndex(),"Moyen");
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JavaLayerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else if( choixniveaudur.isSelected() == true) {
-				Controleur.lancerPartie(listDeroul.getSelectedIndex(),"Difficile");
+				try {
+					Controleur.lancerPartie(listDeroul.getSelectedIndex(),"Difficile");
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JavaLayerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
