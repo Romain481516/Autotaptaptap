@@ -30,6 +30,7 @@ public class mp3Player implements Runnable {
 	private FileInputStream fis;
 	private Boolean playing = true;
 	public int timedebPause;
+	private boolean firstRun = true ;
 
 
 	/*private final static int NOTSTARTED = 0;
@@ -65,9 +66,13 @@ public class mp3Player implements Runnable {
 		if (bytesStart<Integer.MAX_VALUE){
 			System.out.println("play!");
 			try {
+				if (firstRun ){ //on releve le temps de debut de partie seulement la premiere fois, pas à la reprise après une pause
 				Controleur.startTime = System.currentTimeMillis()+230; //+200 car il ya a un retard au debut de la partie
-				adplayer.play(); 
-				//bytesStart,Integer.MAX_VALUE
+				}
+				adplayer.play();
+				if(adplayer.isComplete()){
+					Controleur.endOfGame();
+				}
 			} 
 			catch (JavaLayerException ex) {
 				System.out.println("prb1!");
@@ -79,16 +84,15 @@ public class mp3Player implements Runnable {
 
 	
 	public void pause() throws InterruptedException, IOException, JavaLayerException{
-		//playing = false;
-		this.timedebPause=adplayer.getPosition();
-		bytesStart = nbBytes - this.fis.available();
-		this.adplayer.close();
-		Controleur.fenetreJeuencours.cadreJeu.timePause=System.currentTimeMillis();
-		System.out.println(nbBytes);
-		fis=new FileInputStream(songPath);
-		fis.skip(bytesStart);
+		this.timedebPause=adplayer.getPosition(); 			 //position dans la musique du player mp3
+		bytesStart = nbBytes - this.fis.available();	 //position dans le INPUT stream
+		this.adplayer.close();  			 			//fermeture du player
+		fis=new FileInputStream(songPath); 				 // recréation de l'inpustStream
+		fis.skip(bytesStart);   						//avance dans l'input stream jusqu'au moment de la pause
+		Controleur.windowGame.cadreJeu.timePause=System.currentTimeMillis();
 		JOptionPane.showMessageDialog(new JFrame(), "Reprendre la partie?");
-		Controleur.fenetreJeuencours.resume();
+		firstRun = false;
+		Controleur.windowGame.resume();
 	}
 
 	

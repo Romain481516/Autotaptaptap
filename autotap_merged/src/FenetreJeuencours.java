@@ -89,10 +89,22 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 		this.setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); //opération par défaut a la fermeture
 
-		//sortie app
+		//sortie application
 		WindowListener sortieApp = new  WindowAdapter(){
 			public void windowClosing (WindowEvent e){
 				ConfirmQuit.popup();
+				try {
+					pause();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (JavaLayerException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}; 
 		this.addWindowListener(sortieApp);
@@ -124,9 +136,22 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 	public void actionPerformed(ActionEvent even) {
 		Object source = even.getSource();
 		if (source == this.butpause) {
-			System.out.println("pause1");        
+			System.out.println("pause1");
+			try {
+				this.pause();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JavaLayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if (source == this.butquit) {
+			
 		}
 	}
 
@@ -143,8 +168,6 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 			break;
 		case KeyEvent.VK_L :
 			System.out.println(Controleur.calculScore(new Note(3,System.currentTimeMillis())));
-			//String input = JOptionPane.showInputDialog(null,"Nom du joueur:");
-			//System.out.println(input);
 			break;
 		case KeyEvent.VK_P :
 			try {

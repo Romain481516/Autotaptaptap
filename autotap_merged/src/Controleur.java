@@ -19,13 +19,15 @@ import javazoom.jl.player.jlp;
 
 public class Controleur {
 
-	public static FenetreJeuencours fenetreJeuencours;
+	public static FenetreJeuencours windowGame;
 	public static mp3Player musicPlayer;
 	public static long startTime;
 	public static Color couleur1 = new Color (180,230,180); 
 	public static Color couleur2 = new Color (240,250,250); 
 	public static FenetrePrincipale fen;
 	public static Bibliotheque biblio;
+	public static int indListpart;
+	public static String level;
 
 	public static void main (String args[])
 	{	
@@ -48,7 +50,7 @@ public class Controleur {
 		biblio = new Bibliotheque("Sauvegarde\\ExempleBiblioSchema.txt");	
 	}
 
-	private static void initInterfaceGraph() {
+	private static void initInterfaceGraph() {  //création fenetre principale et des panneaux
 		fen = new FenetrePrincipale(couleur1,couleur2);
 		PanVide panVide = new PanVide(couleur1,couleur2);
 		PanSuppParti panSuppParti = new PanSuppParti(couleur1,couleur2);
@@ -56,25 +58,20 @@ public class Controleur {
 		PanScores panScores = new PanScores(couleur1, couleur2);
 		fen.panVide=panVide; fen.panSuppParti=panSuppParti; fen.panChoixMus=panChoixMus; fen.panScores=panScores;
 		panVide.fen=fen;  panChoixMus.fen=fen; panScores.fen=fen; panSuppParti.fen=fen;
-
 		fen.setContentPane(fen.panVide);      
 		fen.setVisible(true);
-
 	}
 
-	public static void debutPartie() {
-	}
 
 	public static void lancerPartie(int indexListpart,String niveau) throws FileNotFoundException, JavaLayerException { //l'index donne la place de la partition dans la Jlist et dans la biblio
 		System.out.println("debutjeu avec "+ biblio.ListePartition.get(indexListpart).getNom() + "niveau"+ niveau);
-		startMusique(biblio.ListePartition.get(indexListpart).cheminFichierAudio);
-		FenetreJeuencours wingame = new FenetreJeuencours(couleur1,couleur2,biblio.ListePartition.get(indexListpart).accessNote(niveau),startTime);
-		wingame.paused=false;
-		fenetreJeuencours = wingame;
-		wingame.start();
-
+		indListpart=indexListpart;
+		level = niveau;
+		startMusique(biblio.ListePartition.get(indexListpart).cheminFichierAudio); //lancement du lecteur mp3
+		windowGame = new FenetreJeuencours(couleur1,couleur2,biblio.ListePartition.get(indexListpart).accessNote(niveau),startTime);
+		windowGame.paused=false;
+		windowGame.start(); // lancement du thread de mouvement des notes
 	}
-	//public static void setTimestart(int )
 
 	public static void startMusique(String cheminFichierAudio) throws FileNotFoundException{
 		try {
@@ -90,6 +87,18 @@ public class Controleur {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void endOfGame(){
+		String input = JOptionPane.showInputDialog(null,"Nom du joueur:");
+		try {
+			biblio.ListePartition.get(indListpart).addScore(new Score(input, level, windowGame.currentScore, biblio.ListePartition.get(indListpart).getNom()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		windowGame.setVisible(false);  //suppression de la fenetre de jeu
+		windowGame =null;
 	}
 
 	public static List<Partition> getListMus(){
@@ -111,17 +120,17 @@ public class Controleur {
 	public static String calculScore(Note KP){
 		String message ="pas en rythme";
 		long closestTime = 500;   // on cherche dans les 20 dernières notes affichées celle la plus proche de l'appui du joueur
-		for(int i = fenetreJeuencours.cadreJeu.indexLastNote; i < fenetreJeuencours.cadreJeu.indexLastNote + 20 &&  i < fenetreJeuencours.ListNote.size(); i++){
-			if(fenetreJeuencours.ListNote.get(i).getTouche() == KP.hauteur){
-				if (Math.abs((KP.instantNote-fenetreJeuencours.timeStart)-fenetreJeuencours.ListNote.get(i).debut)<closestTime){
-					closestTime = Math.abs(Math.abs((KP.instantNote-fenetreJeuencours.timeStart)-fenetreJeuencours.ListNote.get(i).debut));
+		for(int i = windowGame.cadreJeu.indexLastNote; i < windowGame.cadreJeu.indexLastNote + 20 &&  i < windowGame.ListNote.size(); i++){
+			if(windowGame.ListNote.get(i).getTouche() == KP.hauteur){
+				if (Math.abs((KP.instantNote-windowGame.timeStart)-windowGame.ListNote.get(i).debut)<closestTime){
+					closestTime = Math.abs(Math.abs((KP.instantNote-windowGame.timeStart)-windowGame.ListNote.get(i).debut));
 				}
 			};
 		}
 		System.out.println("test"+String.valueOf(closestTime));
-		if (closestTime<15){message = "perfect"; fenetreJeuencours.currentScore += 500;}
-		else if (closestTime<100){message = "good"; fenetreJeuencours.currentScore += 200;}
-		else if (closestTime<200){message = "not bad"; fenetreJeuencours.currentScore += 100;}
+		if (closestTime<15){message = "perfect"; windowGame.currentScore += 500;}
+		else if (closestTime<100){message = "good"; windowGame.currentScore += 200;}
+		else if (closestTime<200){message = "not bad"; windowGame.currentScore += 100;}
 		return message;
 	}
 }

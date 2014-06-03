@@ -9,49 +9,29 @@
             <nbscore>19532</nbscore>
         </Score>
         <Score>
-            <joueur>Mickey</joueur>
+            <joueur>RomainTest</joueur>
             <niveau>Facile</niveau>
-            <nbscore>0</nbscore>
+            <nbscore>3400</nbscore>
         </Score>
         <Score>
-            <joueur>Mickey</joueur>
+            <joueur>Romain Test2</joueur>
             <niveau>Facile</niveau>
-            <nbscore>0</nbscore>
+            <nbscore>1900</nbscore>
         </Score>
         <Score>
-            <joueur>Mickey</joueur>
+            <joueur>romaintest3</joueur>
             <niveau>Facile</niveau>
-            <nbscore>0</nbscore>
+            <nbscore>2500</nbscore>
         </Score>
         <Score>
-            <joueur>Mickey</joueur>
+            <joueur>rom</joueur>
             <niveau>Facile</niveau>
-            <nbscore>0</nbscore>
+            <nbscore>2500</nbscore>
         </Score>
         <Score>
-            <joueur>Mickey</joueur>
+            <joueur>rom</joueur>
             <niveau>Facile</niveau>
-            <nbscore>0</nbscore>
-        </Score>
-        <Score>
-            <joueur>Mickey</joueur>
-            <niveau>Facile</niveau>
-            <nbscore>0</nbscore>
-        </Score>
-        <Score>
-            <joueur>Mickey</joueur>
-            <niveau>Facile</niveau>
-            <nbscore>0</nbscore>
-        </Score>
-        <Score>
-            <joueur>Mickey</joueur>
-            <niveau>Facile</niveau>
-            <nbscore>0</nbscore>
-        </Score>
-        <Score>
-            <joueur>Mickey</joueur>
-            <niveau>Facile</niveau>
-            <nbscore>0</nbscore>
+            <nbscore>2200</nbscore>
         </Score>
     </LISTE_SCORE>
     <PARTITION niveau="Facile">
@@ -60,7 +40,7 @@
             <debut>14160</debut>
             <duree>-1</duree>
         </Note>
-                <Note>
+        <Note>
             <touche>false true false</touche>
             <debut>1919</debut>
             <duree>-1</duree>
@@ -70,17 +50,17 @@
             <debut>2138</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>5411</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>5725</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>false true false</touche>
             <debut>6543</debut>
             <duree>-1</duree>
@@ -90,17 +70,17 @@
             <debut>8400</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>8600</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>9470</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>false true false</touche>
             <debut>12370</debut>
             <duree>-1</duree>
@@ -115,12 +95,12 @@
             <debut>13850</debut>
             <duree>-1</duree>
         </Note>
-         <Note>
+        <Note>
             <touche>true true true</touche>
             <debut>14340</debut>
             <duree>-1</duree>
         </Note>
-         <Note>
+        <Note>
             <touche>true true true</touche>
             <debut>15070</debut>
             <duree>-1</duree>
@@ -130,12 +110,12 @@
             <debut>15509</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>17774</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>18371</debut>
             <duree>-1</duree>
@@ -145,32 +125,32 @@
             <debut>22020</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>23221</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>24000</debut>
             <duree>-1</duree>
         </Note>
-         <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>25578</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>26366</debut>
             <duree>-1</duree>
         </Note>
-         <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>27154</debut>
             <duree>-1</duree>
         </Note>
-          <Note>
+        <Note>
             <touche>true false false</touche>
             <debut>27925</debut>
             <duree>-1</duree>
@@ -190,4 +170,5 @@
             <duree>10</duree>
         </Note>
     </PARTITION>
-</MUSIQUE><!--Pour les notes : Gauche,Centre,Droite,Duree,Temps(ms) -->
+</MUSIQUE>
+<!--Pour les notes : Gauche,Centre,Droite,Duree,Temps(ms) -->

@@ -18,7 +18,7 @@ public class CadreJeu extends JPanel {
 	public long timeResume;
 	public long timePause;
 	public ArrayList<TripletNote> tapableNotes = new ArrayList<TripletNote>();  //calcl score
-	public int indexLastNote = 1 ;
+	public int indexLastNote ;
 
 	Image backgroundPicture;
 	
@@ -26,7 +26,9 @@ public class CadreJeu extends JPanel {
 	public CadreJeu(Color backColor,List<TripletNote> listNote,long timeStart) {
 		this.timeStart = timeStart;
 		this.ListNote = listNote;
-		this.timePause=0;
+		this.timePause = 0;
+		this.timeResume = 0;
+		indexLastNote =1;
 		setBackground(backColor);
 		//image fond
 		backgroundPicture = null;
@@ -72,7 +74,7 @@ public class CadreJeu extends JPanel {
 					break;
 					}
 				}
-				//if (ecarttemps > 250){indexLastNote=i;}
+					//if (ecarttemps > 250){indexLastNote=i;}
 			} else {
 				long ecarttemps = (System.currentTimeMillis() - timeStart) -  (this.ListNote.get(i).debut + timeResume - timePause ) ;
 				if  (ecarttemps > -1750  & (ecarttemps < 250 + this.ListNote.get(i).duration)){
