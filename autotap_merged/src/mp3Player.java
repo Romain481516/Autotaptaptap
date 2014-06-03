@@ -21,7 +21,7 @@ public class mp3Player implements Runnable {
 
 	// the player actually doing all the work
 	private Header header;
-	private AdvancedPlayer adplayer;
+	private Player adplayer;
 	private Thread playerThread;
 	private int nbBytes;
 	private int bytesStart = 1;
@@ -29,6 +29,7 @@ public class mp3Player implements Runnable {
 	private String songPath;
 	private FileInputStream fis;
 	private Boolean playing = true;
+	public int timedebPause;
 
 
 	/*private final static int NOTSTARTED = 0;
@@ -55,7 +56,7 @@ public class mp3Player implements Runnable {
 		//});
 	}
 	public void start() throws JavaLayerException, FileNotFoundException{
-		this.adplayer = new AdvancedPlayer(fis);
+		this.adplayer = new Player(fis);
 		Thread playerThread = new Thread(this);
 		playerThread.start();
 	}
@@ -64,8 +65,8 @@ public class mp3Player implements Runnable {
 		if (bytesStart<Integer.MAX_VALUE){
 			System.out.println("play!");
 			try {
-				Controleur.startTime = System.currentTimeMillis()+100;
-				adplayer.play();
+				Controleur.startTime = System.currentTimeMillis()+230; //+200 car il ya a un retard au debut de la partie
+				adplayer.play(); 
 				//bytesStart,Integer.MAX_VALUE
 			} 
 			catch (JavaLayerException ex) {
@@ -79,17 +80,16 @@ public class mp3Player implements Runnable {
 	
 	public void pause() throws InterruptedException, IOException, JavaLayerException{
 		//playing = false;
+		this.timedebPause=adplayer.getPosition();
 		bytesStart = nbBytes - this.fis.available();
 		this.adplayer.close();
-		
+		Controleur.fenetreJeuencours.cadreJeu.timePause=System.currentTimeMillis();
 		System.out.println(nbBytes);
 		fis=new FileInputStream(songPath);
 		fis.skip(bytesStart);
 		JOptionPane.showMessageDialog(new JFrame(), "Reprendre la partie?");
-		resume();
+		Controleur.fenetreJeuencours.resume();
 	}
 
-	private void resume() throws JavaLayerException, FileNotFoundException {
-		start();
-	}
+	
 }

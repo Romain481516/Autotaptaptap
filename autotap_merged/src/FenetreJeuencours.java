@@ -20,6 +20,7 @@ import javazoom.jl.player.jlp;
 public class FenetreJeuencours extends JFrame implements ActionListener,KeyListener,Runnable {
 	public List<TripletNote> ListNote;
 	public long timeStart;
+	public boolean paused = false;
 	public JOptionPane confirmStopPartie,fenFinPartie;
 	public ConfirmQuit confirmQuit;
 	Color couleur1,couleur2;
@@ -102,25 +103,23 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 		valScore.setText(String.valueOf(currentScore));
 	}
 
-
 	public void start(){
 		Thread t = new Thread(this);
 		t.start();
 	}
-	
+
 	public void run() {
 		long sleep = 30;
-		while (true) {
-			repaint();
-			try {
-				Thread.sleep(sleep);
-			} catch (InterruptedException e) {
-				System.out.println("Interrupted: " + e.getMessage());
-			}         
+		while(true){
+			if(!this.paused) {repaint();}
+				try {
+					Thread.sleep(sleep);
+				} catch (InterruptedException e) {
+					System.out.println("Interrupted: " + e.getMessage());
+				}         
+			}
 		}
-	}
-
-
+	
 
 	public void actionPerformed(ActionEvent even) {
 		Object source = even.getSource();
@@ -144,11 +143,12 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 			break;
 		case KeyEvent.VK_L :
 			System.out.println(Controleur.calculScore(new Note(3,System.currentTimeMillis())));
-			String input = JOptionPane.showInputDialog(null,"Nom du joueur:");
-			System.out.println(input);
+			//String input = JOptionPane.showInputDialog(null,"Nom du joueur:");
+			//System.out.println(input);
+			break;
 		case KeyEvent.VK_P :
 			try {
-				Controleur.pause();
+				this.pause();
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -162,13 +162,22 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			System.out.println("pause");
+			System.out.println("pause2");
 			break;
 		}
 	}
 
 	public void keyTyped(KeyEvent e) {
 	};
+	
+	public void pause() throws InterruptedException, IOException, JavaLayerException{
+			this.paused=true;
+			Controleur.musicPlayer.pause();
+		}
+	public void resume() throws JavaLayerException, FileNotFoundException {
+		this.paused=false;
+		this.cadreJeu.timeResume=System.currentTimeMillis();
+		Controleur.musicPlayer.start();
+	}
 }	
 

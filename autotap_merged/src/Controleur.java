@@ -69,9 +69,10 @@ public class Controleur {
 		System.out.println("debutjeu avec "+ biblio.ListePartition.get(indexListpart).getNom() + "niveau"+ niveau);
 		startMusique(biblio.ListePartition.get(indexListpart).cheminFichierAudio);
 		FenetreJeuencours wingame = new FenetreJeuencours(couleur1,couleur2,biblio.ListePartition.get(indexListpart).accessNote(niveau),startTime);
+		wingame.paused=false;
 		fenetreJeuencours = wingame;
 		wingame.start();
-		
+
 	}
 	//public static void setTimestart(int )
 
@@ -90,11 +91,6 @@ public class Controleur {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void pause() throws InterruptedException, IOException, JavaLayerException{
-		musicPlayer.pause();
-	}
-		
 
 	public static List<Partition> getListMus(){
 		return biblio.getListePartition();
@@ -128,5 +124,6 @@ public class Controleur {
 		else if (closestTime<200){message = "not bad"; fenetreJeuencours.currentScore += 100;}
 		return message;
 	}
-
 }
+
+
