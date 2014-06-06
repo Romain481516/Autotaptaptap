@@ -59,6 +59,7 @@ public class TripletNote {
 		}
 		return num;
 	}
+	
 	//TODO choisir ce que renvoie la méthode.
 	public long getDuree(){
 		return this.duration;

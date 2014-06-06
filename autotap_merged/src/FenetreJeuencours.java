@@ -9,7 +9,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,25 +21,26 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.jlp;
 
 public class FenetreJeuencours extends JFrame implements ActionListener,KeyListener,Runnable {
-	public List<TripletNote> ListNote;
+	public List<TripletNote> ListNote; 
 	public long timeStart;
 	public boolean paused = false;
 	public JOptionPane confirmStopPartie,fenFinPartie;
 	public ConfirmQuit confirmQuit;
 	Color couleur1,couleur2;
 
-	public JButton butpause;
-	public JButton butquit;
+	private JButton butpause;
+	private JButton butquit;
 
 	public CadreJeu cadreJeu;
 	TextField valScore = new TextField("0000");
 	int currentScore = 00;
 	public TextField valBestScore = new TextField("0000");
+	JTextArea rythm = new JTextArea(" . ");
 
-	public ArrayList<Note> listkeyPressed; //touches pressées pendant le repaint et le sleep
 	public mp3Player mpplay;
+	private final List<Character> pressed = new ArrayList<Character>();		// list de touches pressées en même temps								
 
-	public FenetreJeuencours(Color couleur1,Color couleur2,List<TripletNote> listNote,long timeStart){
+	public FenetreJeuencours(Color couleur1,Color couleur2,List<TripletNote> listNote){
 		super("Jeu en cours");            
 		setSize(new Dimension(940,540));     
 		setMinimumSize(new Dimension(940,540));
@@ -80,9 +84,13 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 		panDroite.add(meilleurScore);
 		valBestScore.setEditable(false); 
 		panDroite.add(valBestScore);
+		
+		
+		rythm.setEditable(false); 
+		panDroite.add(rythm);
 
 		//Ajout  du cadre de jeu 
-		cadreJeu = new CadreJeu(this.couleur1,listNote,timeStart);
+		cadreJeu = new CadreJeu(this.couleur1,listNote);
 		paneau.add(cadreJeu,BorderLayout.CENTER);
 
 		this.setContentPane(paneau);
@@ -110,10 +118,6 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 		this.addWindowListener(sortieApp);
 	}
 
-	public void repaint(){
-		cadreJeu.repaint();
-		valScore.setText(String.valueOf(currentScore));
-	}
 
 	public void start(){
 		Thread t = new Thread(this);
@@ -122,16 +126,33 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 
 	public void run() {
 		long sleep = 30;
+		try {
+			Thread.sleep(200);   //il faut attendre le lancement du lecteur de musique pour pouvoir synchroniser avec le deplacement des notes
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		setTimeStart (Controleur.musicPlayer.getTimeStart());
+		System.out.println(this.timeStart);
 		while(true){
 			if(!this.paused) {repaint();}
-				try {
-					Thread.sleep(sleep);
-				} catch (InterruptedException e) {
-					System.out.println("Interrupted: " + e.getMessage());
-				}         
-			}
+			try {
+				Thread.sleep(sleep);
+			} catch (InterruptedException e) {
+				System.out.println("Interrupted: " + e.getMessage());
+			}         
 		}
+	}
 	
+	private void setTimeStart(long timeStart2) {
+		this.timeStart = timeStart2;
+		cadreJeu.setTimeStart(timeStart2);
+	}
+
+
+	public void repaint(){
+		cadreJeu.repaint();
+		valScore.setText(String.valueOf(currentScore));
+	}
 
 	public void actionPerformed(ActionEvent even) {
 		Object source = even.getSource();
@@ -151,30 +172,75 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 			}
 		}
 		else if (source == this.butquit) {
-			
+
 		}
 	}
 
+	
+	//Gestion des appuis sur les touches
+
 	public void keyReleased(KeyEvent even){
+		if (pressed.size() == 3){  // 3 keys sont pressées
+			System.out.println(pressed.size()+"touche");
+			pressed.clear();
+			rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{true,true,true},System.currentTimeMillis(),-1)));
+		}
+		else if (pressed.size() == 2 ) { // 2 keys sont pressées
+			
+			switch (even.getKeyCode()) { // on cherche quelle combinaison de touche est pressée
+			case KeyEvent.VK_J :
+				if (pressed.get(1)== 'k'){
+					System.out.println(pressed.size()+"touche");
+					rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{true,true,false},System.currentTimeMillis(),-1)));
+				}else if(pressed.get(1)== 'l'){
+					System.out.println(pressed.size()+"touche");
+					rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{true,false,true},System.currentTimeMillis(),-1)));
+				}
+				break;
+			case KeyEvent.VK_K:
+				if (pressed.get(1)== 'j'){
+					System.out.println(pressed.size()+"touche");
+					rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{true,true,false},System.currentTimeMillis(),-1)));
+				}else if(pressed.get(1)== 'l'){
+					System.out.println(pressed.size()+"touche");
+					rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{false,true,true},System.currentTimeMillis(),-1)));
+				}
+				break;
+			case KeyEvent.VK_L :
+				if (pressed.get(1)== 'k'){
+					System.out.println(pressed.size()+"touche");
+					rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{false,true,true},System.currentTimeMillis(),-1)));
+				}else if(pressed.get(1)== 'j'){
+					rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{true,false,true},System.currentTimeMillis(),-1)));
+				}
+				break;
+			}
+			pressed.clear();
+		}else if(pressed.size()==1) { 					//une seule touche est pressé et relachée
+			System.out.println(pressed.size()+"touche");
+			pressed.remove((Character)even.getKeyChar());
+			switch (even.getKeyCode()) {
+			case KeyEvent.VK_J :
+				rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{true,false,false},System.currentTimeMillis(),-1)));
+				break;
+			case KeyEvent.VK_K:
+				rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{false,true,false},System.currentTimeMillis(),-1)));
+				break;
+			case KeyEvent.VK_L :
+				rythm.setText(Controleur.calculScore(new TripletNote(new boolean[]{false,false,true},System.currentTimeMillis(),-1)));
+				break;
+			}
+		}
 	}
 
+
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_J :
-			System.out.println(Controleur.calculScore(new Note(1,System.currentTimeMillis())));
-			break;
-		case KeyEvent.VK_K:
-			System.out.println(Controleur.calculScore(new Note(2,System.currentTimeMillis())));
-			break;
-		case KeyEvent.VK_L :
-			System.out.println(Controleur.calculScore(new Note(3,System.currentTimeMillis())));
-			break;
-		case KeyEvent.VK_P :
+		int src = e.getKeyCode();
+		if (src==KeyEvent.VK_J || src==KeyEvent.VK_K ||src==KeyEvent.VK_L){
+			pressed.add(e.getKeyChar());      // a chaque appui sur j,k ou l, cette touche est ajoutée à la liste des touches pressées
+		}else if(src ==KeyEvent.VK_P){
 			try {
-				this.pause();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				pause();
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -185,18 +251,16 @@ public class FenetreJeuencours extends JFrame implements ActionListener,KeyListe
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			System.out.println("pause2");
-			break;
 		}
 	}
-
+	
 	public void keyTyped(KeyEvent e) {
 	};
-	
+
 	public void pause() throws InterruptedException, IOException, JavaLayerException{
-			this.paused=true;
-			Controleur.musicPlayer.pause();
-		}
+		this.paused=true;
+		Controleur.musicPlayer.pause();
+	}
 	public void resume() throws JavaLayerException, FileNotFoundException {
 		this.paused=false;
 		this.cadreJeu.timeResume=System.currentTimeMillis();

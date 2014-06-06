@@ -11,9 +11,6 @@ import javax.swing.JOptionPane;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
-import javazoom.jl.player.advanced.AdvancedPlayer;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
 
 
 public class mp3Player implements Runnable {
@@ -30,7 +27,7 @@ public class mp3Player implements Runnable {
 	private FileInputStream fis;
 	private Boolean playing = true;
 	public int timedebPause;
-	private boolean firstRun = true ;
+	public boolean firstRun = true ;
 
 
 	/*private final static int NOTSTARTED = 0;
@@ -64,10 +61,10 @@ public class mp3Player implements Runnable {
 		
 	public void run(){
 		if (bytesStart<Integer.MAX_VALUE){
-			System.out.println("play!");
 			try {
 				if (firstRun ){ //on releve le temps de debut de partie seulement la premiere fois, pas à la reprise après une pause
-				Controleur.startTime = System.currentTimeMillis()+230; //+200 car il ya a un retard au debut de la partie
+				//Controleur.startTime = System.currentTimeMillis()+230; //+200 car il ya a un retard au debut de la partie
+				System.out.println("play firt time!"+ System.currentTimeMillis());
 				}
 				adplayer.play();
 				if(adplayer.isComplete()){
@@ -80,7 +77,10 @@ public class mp3Player implements Runnable {
 			}else{
 				System.out.println("prb!");
 			}
-	}	
+	}
+	public long getTimeStart(){
+		return adplayer.getTimeStart();
+	}
 
 	
 	public void pause() throws InterruptedException, IOException, JavaLayerException{

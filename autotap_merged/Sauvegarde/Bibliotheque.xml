@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <BIBLIO>
-    <Chanson>
-        <nom>NomPartionTest</nom>
-        <cheminPartition>Sauvegarde\TestChemin.xml</cheminPartition>
+<Chanson>
+        <nom>Backwaters_Drenge</nom>
+        <cheminPartition>Sauvegarde\\XMLSchema2ex.xml</cheminPartition>
     </Chanson>
-</BIBLIO>
+    <Chanson>
+        <nom>chanson_testchemin</nom>
+        <cheminPartition>Sauvegarde\\TestChemin.xml</cheminPartition>
+    </Chanson>
+    <Chanson>
+        <nom>Talkin Blues</nom>
+        <cheminPartition>Sauvegarde\\partitionbob.xml</cheminPartition>
+    </Chanson>
+ </BIBLIO>

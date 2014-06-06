@@ -33,6 +33,36 @@
             <niveau>Facile</niveau>
             <nbscore>2200</nbscore>
         </Score>
+        <Score>
+            <joueur>romain54</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>1100</nbscore>
+        </Score>
+        <Score>
+            <joueur>jgkhbfdb</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>2300</nbscore>
+        </Score>
+        <Score>
+            <joueur>jhgk</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>4200</nbscore>
+        </Score>
+        <Score>
+            <joueur>kjg</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>7300</nbscore>
+        </Score>
+        <Score>
+            <joueur>kgg</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>3900</nbscore>
+        </Score>
+        <Score>
+            <joueur>rom!</joueur>
+            <niveau>Facile</niveau>
+            <nbscore>3200</nbscore>
+        </Score>
     </LISTE_SCORE>
     <PARTITION niveau="Facile">
         <Note>
@@ -46,7 +76,7 @@
             <duree>-1</duree>
         </Note>
         <Note>
-            <touche>false false true</touche>
+            <touche>false true true</touche>
             <debut>2138</debut>
             <duree>-1</duree>
         </Note>
@@ -56,7 +86,7 @@
             <duree>-1</duree>
         </Note>
         <Note>
-            <touche>true false false</touche>
+            <touche>true true false</touche>
             <debut>5725</debut>
             <duree>-1</duree>
         </Note>
@@ -71,17 +101,17 @@
             <duree>-1</duree>
         </Note>
         <Note>
-            <touche>true false false</touche>
+            <touche>true false true</touche>
             <debut>8600</debut>
             <duree>-1</duree>
         </Note>
         <Note>
-            <touche>true false false</touche>
+            <touche>true false true</touche>
             <debut>9470</debut>
             <duree>-1</duree>
         </Note>
         <Note>
-            <touche>false true false</touche>
+            <touche>true true false</touche>
             <debut>12370</debut>
             <duree>-1</duree>
         </Note>

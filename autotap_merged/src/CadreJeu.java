@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 public class CadreJeu extends JPanel {
 
-	public List<TripletNote> ListNote;
+	private List<TripletNote> ListNote;
 	private long timeStart;
 	public long timeResume;
 	public long timePause;
@@ -23,12 +23,11 @@ public class CadreJeu extends JPanel {
 	Image backgroundPicture;
 	
 
-	public CadreJeu(Color backColor,List<TripletNote> listNote,long timeStart) {
-		this.timeStart = timeStart;
+	public CadreJeu(Color backColor,List<TripletNote> listNote) {
 		this.ListNote = listNote;
 		this.timePause = 0;
 		this.timeResume = 0;
-		indexLastNote =1;
+		this.indexLastNote =1;
 		setBackground(backColor);
 		//image fond
 		backgroundPicture = null;
@@ -40,15 +39,21 @@ public class CadreJeu extends JPanel {
 		}
 	}
 	
+	public void setTimeStart (long timeStart){
+		this.timeStart = timeStart;
+	}
+	
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		tapableNotes.clear();
 		g.translate(90, 390);
 		g.drawImage(backgroundPicture,-90,-390,600,500,this);
 		for(int i=indexLastNote; i <this.ListNote.size(); i++){ // ou indexlast note +50
+			g.setColor(Color.red); g.fillOval(195, 50, 30,25);
 			if (this.ListNote.get(i).duration < 0){
 				long ecarttemps = (System.currentTimeMillis() - timeStart) - (this.ListNote.get(i).debut + timeResume - timePause) ; 
 				if  (ecarttemps > -1750  & (ecarttemps < 250 )){
+					g.setColor(Color.black); g.fillOval(195, -50, 30,25);
 					tapableNotes.add(this.ListNote.get(i));
 					int x = (int) (ecarttemps/5);
 					switch (this.ListNote.get(i).getTouche()) {

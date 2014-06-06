@@ -47,7 +47,9 @@ public class Controleur {
 
 
 	private static void initBiblio() {
-		biblio = new Bibliotheque("Sauvegarde\\ExempleBiblioSchema.txt");	
+		biblio = new Bibliotheque("Sauvegarde\\Bibliotheque.xml");
+		
+		
 	}
 
 	private static void initInterfaceGraph() {  //création fenetre principale et des panneaux
@@ -64,11 +66,11 @@ public class Controleur {
 
 
 	public static void lancerPartie(int indexListpart,String niveau) throws FileNotFoundException, JavaLayerException { //l'index donne la place de la partition dans la Jlist et dans la biblio
-		System.out.println("debutjeu avec "+ biblio.ListePartition.get(indexListpart).getNom() + "niveau"+ niveau);
 		indListpart=indexListpart;
 		level = niveau;
 		startMusique(biblio.ListePartition.get(indexListpart).cheminFichierAudio); //lancement du lecteur mp3
-		windowGame = new FenetreJeuencours(couleur1,couleur2,biblio.ListePartition.get(indexListpart).accessNote(niveau),startTime);
+		System.out.println("debutjeu avec "+ biblio.ListePartition.get(indexListpart).getNom()  + startTime);
+		windowGame = new FenetreJeuencours(couleur1,couleur2,biblio.ListePartition.get(indexListpart).accessNote(niveau));
 		windowGame.paused=false;
 		windowGame.start(); // lancement du thread de mouvement des notes
 	}
@@ -76,6 +78,7 @@ public class Controleur {
 	public static void startMusique(String cheminFichierAudio) throws FileNotFoundException{
 		try {
 			musicPlayer = new mp3Player();
+			musicPlayer.firstRun = true;
 			try {
 				musicPlayer.initPlayer(cheminFichierAudio,1);
 				musicPlayer.start();
@@ -91,11 +94,12 @@ public class Controleur {
 	
 	public static void endOfGame(){
 		String input = JOptionPane.showInputDialog(null,"Nom du joueur:");
+		if (input!=null) {
 		try {
 			biblio.ListePartition.get(indListpart).addScore(new Score(input, level, windowGame.currentScore, biblio.ListePartition.get(indListpart).getNom()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace();}
 		}
 		windowGame.setVisible(false);  //suppression de la fenetre de jeu
 		windowGame =null;
@@ -117,20 +121,20 @@ public class Controleur {
 	public static void analyse(File chansonATraiter) {
 	}
 
-	public static String calculScore(Note KP){
-		String message ="pas en rythme";
+	public static String calculScore(TripletNote tripletNote){
+		String message ="pas en rythme...";
 		long closestTime = 500;   // on cherche dans les 20 dernières notes affichées celle la plus proche de l'appui du joueur
 		for(int i = windowGame.cadreJeu.indexLastNote; i < windowGame.cadreJeu.indexLastNote + 20 &&  i < windowGame.ListNote.size(); i++){
-			if(windowGame.ListNote.get(i).getTouche() == KP.hauteur){
-				if (Math.abs((KP.instantNote-windowGame.timeStart)-windowGame.ListNote.get(i).debut)<closestTime){
-					closestTime = Math.abs(Math.abs((KP.instantNote-windowGame.timeStart)-windowGame.ListNote.get(i).debut));
+			if(windowGame.ListNote.get(i).getTouche() == tripletNote.getTouche()){
+				if (Math.abs((tripletNote.debut-windowGame.timeStart)-windowGame.ListNote.get(i).debut)<closestTime){
+					closestTime = Math.abs(Math.abs((tripletNote.debut-windowGame.timeStart)-windowGame.ListNote.get(i).debut));
 				}
 			};
 		}
-		System.out.println("test"+String.valueOf(closestTime));
-		if (closestTime<15){message = "perfect"; windowGame.currentScore += 500;}
-		else if (closestTime<100){message = "good"; windowGame.currentScore += 200;}
-		else if (closestTime<200){message = "not bad"; windowGame.currentScore += 100;}
+		//System.out.println("test"+String.valueOf(closestTime));
+		if (closestTime<30){message = "perfect : 500 points !"; windowGame.currentScore += 500;}
+		else if (closestTime<150){message = "good : 200 points !"; windowGame.currentScore += 200;}
+		else if (closestTime<300){message = "not bad : 100 points !"; windowGame.currentScore += 100;}
 		return message;
 	}
 }
